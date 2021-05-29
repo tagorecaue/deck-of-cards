@@ -2,7 +2,8 @@ import * as api from '@/services'
 
 const createDeck = async ({ dispatch, commit }, { cards, rotationCard }) => {
   dispatch('isLoading', true)
-  const { deck_id: deckId } = await api.createDeck(cards, rotationCard)
+  const { deck_id: deckId, remaining } = await api.createDeck(cards, rotationCard)
+  await api.drawDeck(deckId, remaining)
   await api.createPile(deckId, 'table', cards)
   await api.createPile(deckId, 'rotation', [rotationCard])
   commit('SET_DECK', { deckId, cards, rotationCard })
