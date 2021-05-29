@@ -25,11 +25,6 @@ export default {
       rotationCardCode: ''
     }
   },
-  watch: {
-    newCard: {
-      handler: 'onValidateNewCard'
-    }
-  },
   methods: {
     ...mapActions(['createDeck']),
     onAddCard (card) {
