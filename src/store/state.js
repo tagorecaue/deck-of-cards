@@ -1,6 +1,6 @@
 export default {
-  hash: null,
+  deckId: null,
   cards: null,
-  rotation: null,
+  rotationCard: null,
   loading: false
 }

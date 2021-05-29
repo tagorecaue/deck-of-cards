@@ -1,8 +1,8 @@
 export default {
-  SET_STATE (state, { hash, cards, rotation }) {
-    state.hash = hash
+  SET_DECK (state, { deckId, cards, rotationCard }) {
+    state.deckId = deckId
     state.cards = cards
-    state.rotation = rotation
+    state.rotationCard = rotationCard
   },
   SET_LOADING (state, loading) {
     state.loading = loading

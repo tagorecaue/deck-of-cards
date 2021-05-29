@@ -75,7 +75,7 @@ export default {
       }
     },
     onInput () {
-      const card = this.newCard
+      const card = this.newCard.toUpperCase()
       this.validateCard(card)
 
       if (this.hasError) {

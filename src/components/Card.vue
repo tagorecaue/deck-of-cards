@@ -1,6 +1,6 @@
 <template>
   <div class="card" :data-icon="suitIconMap[suit]">
-    {{value}}
+    {{value}} {{suit}}
   </div>
 </template>
 
