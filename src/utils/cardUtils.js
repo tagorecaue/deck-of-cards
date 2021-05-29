@@ -17,10 +17,52 @@ export const validateCard = (code) => {
   return ''
 }
 
-export const getCardStrength = (code) => {
+export const getValuesStrengths = (rotationCode) => {
+  const defaultStrengths = CONSTANTS.CARD_VALUE_STRENGTH
+
+  if (!rotationCode) {
+    return defaultStrengths
+  }
+
+  const value = getCardValue(rotationCode)
+  const rotatioStrength = defaultStrengths[value]
+  const newStrenght = {}
+
+  Object.entries(defaultStrengths).forEach(([key, value]) => {
+    if (value < rotatioStrength) {
+      newStrenght[key] = value + rotatioStrength
+    } else {
+      newStrenght[key] = value
+    }
+  })
+
+  return newStrenght
+}
+
+export const getSuitsStrengths = (rotationCode) => {
+  const defaultStrengths = CONSTANTS.CARD_SUIT_STRENGTH
+  if (!rotationCode) {
+    return defaultStrengths
+  }
+  const suit = getCardSuit(rotationCode)
+  const rotatioStrength = defaultStrengths[suit]
+  const newStrenght = {}
+
+  Object.entries(defaultStrengths).forEach(([key, value]) => {
+    if (value < rotatioStrength) {
+      newStrenght[key] = value + rotatioStrength
+    } else {
+      newStrenght[key] = value
+    }
+  })
+
+  return newStrenght
+}
+
+export const getCardStrength = (code, rotationCode) => {
   if (!code) return ''
-  const valuesStrength = CONSTANTS.CARD_VALUE_STRENGTH
-  const suitsStrength = CONSTANTS.CARD_SUIT_STRENGTH
+  const valuesStrength = getValuesStrengths(rotationCode)
+  const suitsStrength = getSuitsStrengths(rotationCode)
 
   const cardValue = getCardValue(code)
   const cardSuit = getCardSuit(code)

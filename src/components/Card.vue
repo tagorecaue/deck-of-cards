@@ -16,6 +16,9 @@ export default {
   },
   computed: {
     cardValue () {
+      if (!this.value.code) {
+        return ''
+      }
       let code = this.value.code.substring(0, 1)
       code = code === '0' ? '10' : code
       return `${code} ${this.suitsIcons[this.value.suit]}`

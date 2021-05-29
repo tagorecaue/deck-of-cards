@@ -12,16 +12,21 @@ const createDeck = async ({ dispatch, commit }, { cards, rotationCard }) => {
 
 const getDeck = async ({ dispatch, commit }, deckId) => {
   dispatch('isLoading', true)
-  const tablePile = await api.getPile(deckId, 'table')
-  const rotationCardPile = await api.getPile(deckId, 'rotation')
+  try {
+    const tablePile = await api.getPile(deckId, 'table')
+    const rotationCardPile = await api.getPile(deckId, 'rotation')
 
-  const cards = tablePile.piles.table.cards
-  const rotationCard = rotationCardPile.piles.rotation.cards[0]
+    const cards = tablePile.piles.table.cards
+    const rotationCard = rotationCardPile.piles.rotation.cards[0]
 
-  const result = { deckId, cards, rotationCard }
-  commit('SET_DECK', result)
-  dispatch('isLoading', false)
-  return result
+    const result = { deckId, cards, rotationCard }
+    commit('SET_DECK', result)
+    return result
+  } catch {
+    return false
+  } finally {
+    dispatch('isLoading', false)
+  }
 }
 
 const isLoading = ({ commit }, value) => {

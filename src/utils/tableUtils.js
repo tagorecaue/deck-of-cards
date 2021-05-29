@@ -1,22 +1,16 @@
 import { getCardStrength } from './cardUtils'
 
-export const sortTable = ({ cards, rotationCard, rotationBased }) => {
-  if (!cards || !cards.lenght) return []
+export const sortTable = (cards, rotationCard) => {
+  if (!cards || !cards.length) return []
 
-  if (rotationBased) {
-    return cards
-      .map(card => {
-        return {
-          ...card,
-          strength: getCardStrength(card.code)
-        }
-      })
-      .sort((a, b) => {
-        if (a < b) { return -1 }
-        if (a > b) { return 1 }
-        return 0
-      })
-  } else {
-    return cards
-  }
+  return cards.map(card => {
+    return {
+      ...card,
+      strength: getCardStrength(card.code, rotationCard.code)
+    }
+  }).sort((a, b) => {
+    if (a.strength < b.strength) { return -1 }
+    if (a.strength > b.strength) { return 1 }
+    return 0
+  })
 }

@@ -1,4 +1,5 @@
-import { validateCard } from '@/utils/cardUtils'
+import CONSTANTS from '@/config/constants'
+import { validateCard, getValuesStrengths } from '@/utils/cardUtils'
 
 describe('validateCard', () => {
   const validCards = ['7D', 'QH', '9S', 'AS']
@@ -12,5 +13,13 @@ describe('validateCard', () => {
     invalidCards.forEach(code => {
       expect(validateCard(code)).toNotBe('')
     })
+  })
+})
+
+describe('getValuesStrengths', () => {
+  const rotationCard = 'AS'
+
+  it('get correct value strenghts', () => {
+    expect(getValuesStrengths()).toBe(CONSTANTS.CARD_VALUE_STRENGTH)
   })
 })

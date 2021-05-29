@@ -59,7 +59,11 @@ export const getPile = (deckId = '', pileName = '') => {
   return new Promise((resolve, reject) => {
     return Vue.axios.get(endpoint)
       .then(async ({ data }) => {
-        resolve(data)
+        if (data.success) {
+          resolve(data)
+        } else {
+          reject(Error(errorMessage))
+        }
       })
       .catch(() => reject(Error(errorMessage)))
   })
