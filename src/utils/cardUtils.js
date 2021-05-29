@@ -55,7 +55,7 @@ export const getCardObject = (code) => {
   const { value, suit } = splitCardCode(code)
 
   return {
-    value: CONSTANTS.CARD_SUITS_MAP[value],
+    value: CONSTANTS.CARD_VALUES_MAP[value],
     suit: CONSTANTS.CARD_SUITS_MAP[suit],
     code: code
   }

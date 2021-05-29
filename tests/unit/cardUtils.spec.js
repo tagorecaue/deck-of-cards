@@ -17,9 +17,15 @@ describe('validateCard', () => {
 
 describe('getArrayOrders', () => {
   const baseArray = ['A', 'B', 'C', '1', '2', '3']
+  const newFirstItem = 'C'
+  const orderedArray = ['C', '1', '2', '3', 'A', 'B']
 
   it('show preserve same order', () => {
-    expect(getArrayOrders(baseArray, '')).toBe(baseArray)
-    expect(getArrayOrders(baseArray, 'A')).toBe(baseArray)
+    expect(getArrayOrders(baseArray, '')).toEqual(expect.arrayContaining(baseArray))
+    expect(getArrayOrders(baseArray, 'A')).toEqual(expect.arrayContaining(baseArray))
+  })
+
+  it('should be ordered', () => {
+    expect(getArrayOrders(baseArray, newFirstItem)).toEqual(expect.arrayContaining(orderedArray))
   })
 })
