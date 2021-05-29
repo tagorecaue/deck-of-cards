@@ -1,15 +1,29 @@
 <template>
     <div class="add-cards-form">
-      <div class="sub-title">Add cards to the pile</div>
-      <input v-model="newCard" maxlength="2" @keyup.enter="onAddCard"/>
-      <button :disabled="hasError" type="submit" @click="onAddCard">Add</button>
+      <div v-if="label" class="sub-title">{{ label }}</div>
+      <input v-model="newCard" maxlength="2" @blur="onBlur" @keyup.enter="onInput"/>
+      <button v-if="showButton" :disabled="hasError" type="submit" @click="onInput">Add</button>
       <div v-if="error" class="error-text">{{ error }}</div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'AddCards',
+  name: 'CardInput',
+  props: {
+    value: {
+      type: String,
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    showButton: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       newCard: '',
@@ -24,11 +38,18 @@ export default {
     }
   },
   watch: {
+    value: {
+      handler: 'onValueChange',
+      immediate: true
+    },
     newCard: {
       handler: 'onValidateNewCard'
     }
   },
   methods: {
+    onValueChange (val) {
+      this.newCard = val
+    },
     onValidateNewCard (val) {
       this.validateCard(val)
     },
@@ -48,14 +69,20 @@ export default {
       this.error = ''
       return true
     },
-    onAddCard () {
+    onBlur () {
+      if (!this.showButton) {
+        this.onInput()
+      }
+    },
+    onInput () {
       const card = this.newCard
+      this.validateCard(card)
 
-      if (!this.validateCard(card)) {
+      if (this.hasError) {
         return
       }
 
-      this.$emit('add-card', card)
+      this.$emit('input', card)
       this.newCard = ''
     }
   }

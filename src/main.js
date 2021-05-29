@@ -3,9 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { axiosPlugin } from './config/axios'
+import Toasted from 'vue-toasted'
 
 Vue.config.productionTip = false
 Vue.use(axiosPlugin)
+Vue.use(Toasted, {
+  position: 'bottom-center'
+})
 
 new Vue({
   router,
