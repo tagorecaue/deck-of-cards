@@ -1,5 +1,4 @@
-import CONSTANTS from '@/config/constants'
-import { validateCard, getValuesStrengths } from '@/utils/cardUtils'
+import { validateCard, getArrayOrders } from '@/utils/cardUtils'
 
 describe('validateCard', () => {
   const validCards = ['7D', 'QH', '9S', 'AS']
@@ -16,10 +15,11 @@ describe('validateCard', () => {
   })
 })
 
-describe('getValuesStrengths', () => {
-  const rotationCard = 'AS'
+describe('getArrayOrders', () => {
+  const baseArray = ['A', 'B', 'C', '1', '2', '3']
 
-  it('get correct value strenghts', () => {
-    expect(getValuesStrengths()).toBe(CONSTANTS.CARD_VALUE_STRENGTH)
+  it('show preserve same order', () => {
+    expect(getArrayOrders(baseArray, '')).toBe(baseArray)
+    expect(getArrayOrders(baseArray, 'A')).toBe(baseArray)
   })
 })

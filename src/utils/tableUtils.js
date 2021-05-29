@@ -1,4 +1,4 @@
-import { getCardStrength } from './cardUtils'
+import { getCardOrder } from './cardUtils'
 
 export const sortTable = (cards, rotationCard) => {
   if (!cards || !cards.length) return []
@@ -6,11 +6,11 @@ export const sortTable = (cards, rotationCard) => {
   return cards.map(card => {
     return {
       ...card,
-      strength: getCardStrength(card.code, rotationCard.code)
+      ...getCardOrder(card.code, rotationCard.code)
     }
   }).sort((a, b) => {
-    if (a.strength < b.strength) { return -1 }
-    if (a.strength > b.strength) { return 1 }
-    return 0
+    return a.valueOrder - b.valueOrder
+  }).sort((a, b) => {
+    return a.suitOrder - b.suitOrder
   })
 }
