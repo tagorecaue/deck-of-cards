@@ -1,8 +1,11 @@
 <template>
-  <div class="card-table">
+<div class="card-table">
+    <div  class="cards">
     <Card v-for="card in cards" :key="card.code" :value="card"></Card>
-    <slot></slot>
   </div>
+
+      <slot></slot>
+</div>
 </template>
 
 <script>
@@ -35,5 +38,10 @@ export default {
   border-radius: 5px;
   padding: 30px;
   border: 1px solid #000;
+  > .cards {
+    flex-wrap: wrap;
+    display: flex;
+  }
+
 }
 </style>

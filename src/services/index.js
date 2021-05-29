@@ -1,9 +1,9 @@
 import Vue from 'vue'
 
-export const createDeck = (cards = [], rotation = '') => {
-  let cardsString = cards.join(',')
-  if (rotation) {
-    cardsString += `,${rotation}`
+export const createDeck = (cards = [], rotationCard = {}) => {
+  let cardsString = cards.map(card => card.code).join(',')
+  if (rotationCard) {
+    cardsString += `,${rotationCard.code}`
   }
   const endpoint = `deck/new/shuffle/?cards=${cardsString}`
   const errorMessage = 'Failed to create a deck'
@@ -21,8 +21,21 @@ export const createDeck = (cards = [], rotation = '') => {
   })
 }
 
+export const getDeck = (deckId = '') => {
+  const endpoint = `deck/${deckId}/draw/`
+  const errorMessage = 'Failed to get deck'
+
+  return new Promise((resolve, reject) => {
+    return Vue.axios.get(endpoint)
+      .then(async ({ data }) => {
+        resolve(data)
+      })
+      .catch(() => reject(Error(errorMessage)))
+  })
+}
+
 export const createPile = (deckId, pileName, cards = []) => {
-  const cardsString = cards.join(',')
+  const cardsString = cards.map(card => card.code).join(',')
   const endpoint = `deck/${deckId}/pile/${pileName}/add/?cards=${cardsString}`
   const errorMessage = 'Failed to create a card pile'
 
@@ -34,6 +47,19 @@ export const createPile = (deckId, pileName, cards = []) => {
         } else {
           reject(Error(errorMessage))
         }
+      })
+      .catch(() => reject(Error(errorMessage)))
+  })
+}
+
+export const getPile = (deckId = '', pileName = '') => {
+  const endpoint = `deck/${deckId}/pile/${pileName}/list/`
+  const errorMessage = 'Failed to get pile'
+
+  return new Promise((resolve, reject) => {
+    return Vue.axios.get(endpoint)
+      .then(async ({ data }) => {
+        resolve(data)
       })
       .catch(() => reject(Error(errorMessage)))
   })

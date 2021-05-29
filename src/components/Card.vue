@@ -16,7 +16,9 @@ export default {
   },
   computed: {
     cardValue () {
-      return `${this.value.code.substring(0, 1)} ${this.suitsIcons[this.value.suit]}`
+      let code = this.value.code.substring(0, 1)
+      code = code === '0' ? '10' : code
+      return `${code} ${this.suitsIcons[this.value.suit]}`
     }
   },
   data () {
@@ -30,6 +32,7 @@ export default {
 
 <style scoped lang="scss">
 .card {
+  margin: 10px;
   background-color: #FFF;
   position: relative;
   height: 250px;

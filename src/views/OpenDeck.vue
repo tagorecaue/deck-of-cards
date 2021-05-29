@@ -4,52 +4,38 @@
       <div class="sub-title">Rotation Card</div>
       <Card :value="rotationCard"></Card>
     </Table>
-    <button @click="onSubmitClick">Submit Deck</button>
+    <button @click="onInputOrder">Input Order</button>
+    <button @click="onRotationOrder">Rotation Order</button>
   </div>
 </template>
 
 <script>
 import Table from '@/components/Table.vue'
 import Card from '@/components/Card.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'OpenDeck',
   components: {
     Table,
     Card
   },
-  data () {
-    return {
-      cards: [],
-      rotationCard: {}
-    }
+  computed: {
+    ...mapState({
+      cards: state => state.cards,
+      rotationCard: state => state.rotationCard
+    })
+  },
+  mounted () {
+    const deckId = this.$route.params.id
+    this.getDeck(deckId)
   },
   methods: {
-    ...mapActions(['createDeck']),
-    onAddCard (card) {
-      this.cards.push(card)
+    ...mapActions(['getDeck']),
+    onInputOrder (card) {
+      // TODO
     },
-    onSelectRotationCard (card) {
-      this.rotationCard = card
-    },
-    async onSubmitClick () {
-      if (!this.cards.length) {
-        this.$toasted.error('Please add at least one card to the deck')
-        return
-      }
-
-      if (!this.rotationCard) {
-        this.$toasted.error('Please choose a rotation card')
-        return
-      }
-      const createdDeck = await this.createDeck(this.cards, this.rotationCard)
-
-      this.$router.push({
-        name: 'open-deck',
-        params: {
-          id: createdDeck.id
-        }
-      })
+    onRotationOrder (card) {
+      // TODO
     }
   }
 }

@@ -43,12 +43,12 @@ export default {
         this.$toasted.error('Please choose a rotation card')
         return
       }
-      const createdDeck = await this.createDeck(this.cards, this.rotationCard)
+      const createdDeckId = await this.createDeck({ cards: this.cards, rotationCard: this.rotationCard })
 
       this.$router.push({
         name: 'open-deck',
         params: {
-          id: createdDeck.id
+          id: createdDeckId
         }
       })
     }
