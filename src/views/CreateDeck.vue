@@ -42,7 +42,7 @@ export default {
         return
       }
 
-      if (!this.rotationCard) {
+      if (!this.rotationCard.code) {
         this.$toasted.error('Please choose a rotation card')
         return
       }

@@ -8,7 +8,8 @@ import Toasted from 'vue-toasted'
 Vue.config.productionTip = false
 Vue.use(axiosPlugin)
 Vue.use(Toasted, {
-  position: 'bottom-center'
+  position: 'bottom-center',
+  duration: 2000
 })
 
 new Vue({
