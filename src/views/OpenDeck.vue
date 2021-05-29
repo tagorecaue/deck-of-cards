@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     <Table v-model="orderedCards">
-      <div class="accent-text">Rotation Card</div>
-      <Card :value="rotationCard"></Card>
+      <template v-if="rotationCard">
+        <div class="accent-text">Rotation Card</div>
+        <Card  :value="rotationCard"></Card>
+      </template>
     </Table>
     <button @click="onInputOrder">Input Order</button>
     <button @click="onRotationOrder">Rotation Order</button>
@@ -27,6 +29,7 @@ export default {
   },
   computed: {
     ...mapState({
+      deckId: state => state.deckId,
       cards: state => state.cards,
       rotationCard: state => state.rotationCard
     }),
@@ -40,12 +43,14 @@ export default {
   },
   mounted () {
     const deckId = this.$route.params.id
-    const founded = this.getDeck(deckId)
-    if (!founded) {
-      this.$toasted.error('Deck not found')
-      this.$router.push({
-        name: 'create-deck'
-      })
+    if (deckId !== this.deckId) {
+      const founded = this.getDeck(deckId)
+      if (!founded) {
+        this.$toasted.error('Deck not found')
+        this.$router.push({
+          name: 'create-deck'
+        })
+      }
     }
   },
   methods: {
