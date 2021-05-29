@@ -1,55 +1,40 @@
 <template>
-  <div class="card" :data-icon="suitIconMap[suit]">
-    {{value}} {{suit}}
-  </div>
+  <span :class="['card', suitsColors[value.suit]]" :data-value="cardValue">
+    {{suitsIcons[value.suit]}}
+  </span>
 </template>
 
 <script>
+import CONSTANTS from '../config/constants'
 export default {
   name: 'Card',
   props: {
     value: {
-      type: String,
-      default: ''
-    },
-    suit: {
-      type: String,
-      default: ''
+      type: Object,
+      default: () => ({})
+    }
+  },
+  computed: {
+    cardValue () {
+      return `${this.value.code.substring(0, 1)} ${this.suitsIcons[this.value.suit]}`
     }
   },
   data () {
     return {
-      suitIconMap: {
-        HEARTS: '♥',
-        CLUBS: '♠',
-        DIAMONDS: '♦',
-        SPADES: '♣'
-      },
-      suitColorMap: {
-        HEARTS: 'red',
-        CLUBS: 'black',
-        DIAMONDS: 'black',
-        SPADES: 'red'
-      }
+      suitsIcons: CONSTANTS.SUITS_ICONS,
+      suitsColors: CONSTANTS.SUITS_COLORS
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.text {
-  grid-column: span 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .card {
+  background-color: #FFF;
   position: relative;
-  height: 100%;
-  width: 100%;
-  border: 1px solid black;
-  border-radius: .5rem;
+  height: 250px;
+  width: 150px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,18 +52,18 @@ export default {
 .card::before,
 .card::after {
   position: absolute;
-  content: attr(data-icon);
-  font-size: 1rem;
+  content: attr(data-value);
+  font-size: 24px;
 }
 
 .card::before {
-  top: .5rem;
-  left: .5rem
+  top: 10px;
+  left: 10px
 }
 
 .card::after {
-  bottom: .5rem;
-  right: .5rem;
+  bottom: 10px;
+  right: 10px;
   transform: rotate(180deg);
 }
 </style>

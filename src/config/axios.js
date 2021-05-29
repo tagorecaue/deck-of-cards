@@ -1,9 +1,9 @@
 import axios from 'axios'
-import CONFIG from './config'
+import CONSTANTS from './constants'
 
 const axiosInstance = axios.create({
-  baseURL: CONFIG.API_URL,
-  timeout: CONFIG.HTTP_TIMEOUT
+  baseURL: CONSTANTS.API_URL,
+  timeout: CONSTANTS.HTTP_TIMEOUT
 })
 
 const axiosPlugin = {

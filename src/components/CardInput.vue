@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import CONSTANTS from '../config/constants'
 export default {
   name: 'CardInput',
   props: {
@@ -27,14 +28,22 @@ export default {
   data () {
     return {
       newCard: '',
-      validValues: ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'],
-      validSuits: ['S', 'D', 'C', 'H'],
+      validValues: CONSTANTS.VALID_CARD_VALUES,
+      validSuits: CONSTANTS.VALID_CARD_SUITS,
+      suitsMap: CONSTANTS.CARD_SUITS_MAP,
+      valuesMap: CONSTANTS.CARD_VALUES_MAP,
       error: ''
     }
   },
   computed: {
     hasError () {
       return Boolean(this.error) || this.newCard.length !== 2
+    },
+    cardValue () {
+      return (this.newCard.substring(0, 1) || '').toUpperCase()
+    },
+    cardSuit () {
+      return (this.newCard.substring(1, 2) || '').toUpperCase()
     }
   },
   watch: {
@@ -54,8 +63,8 @@ export default {
       this.validateCard(val)
     },
     validateCard (card) {
-      const value = (card.substring(0, 1) || '').toUpperCase()
-      const suit = (card.substring(1, 2) || '').toUpperCase()
+      const value = this.cardValue
+      const suit = this.cardSuit
 
       if (value && !this.validValues.includes(value)) {
         this.error = 'Valid card values are ' + this.validValues.join(', ')
@@ -75,14 +84,20 @@ export default {
       }
     },
     onInput () {
-      const card = this.newCard.toUpperCase()
-      this.validateCard(card)
+      const cardCode = this.newCard.toUpperCase()
+      this.validateCard(cardCode)
 
       if (this.hasError) {
         return
       }
 
-      this.$emit('input', card)
+      this.$emit('input', cardCode)
+
+      this.$emit('add-card', {
+        value: this.valuesMap[this.cardValue],
+        suit: this.suitsMap[this.cardSuit],
+        code: cardCode
+      })
       this.newCard = ''
     }
   }

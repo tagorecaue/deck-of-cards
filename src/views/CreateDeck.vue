@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <Table v-model="cards">
-      <CardInput label="Add cards to the pile" show-button @input="onAddCard"></CardInput>
+      <CardInput label="Add cards to the pile" show-button @add-card="onAddCard"></CardInput>
     </Table>
-    <CardInput v-model="rotationCard" label="Rotation card"></CardInput>
-    <button :disabled="allowSubmit" @click="onSubmitClick">Submit Deck</button>
+    <CardInput v-model="rotationCardCode" label="Rotation card" @add-card="onSelectRotationCard"></CardInput>
+    <button @click="onSubmitClick">Submit Deck</button>
   </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
   data () {
     return {
       cards: [],
-      rotationCard: ''
+      rotationCard: {},
+      rotationCardCode: ''
     }
   },
   watch: {
@@ -33,6 +34,9 @@ export default {
     ...mapActions(['createDeck']),
     onAddCard (card) {
       this.cards.push(card)
+    },
+    onSelectRotationCard (card) {
+      this.rotationCard = card
     },
     async onSubmitClick () {
       if (!this.cards.length) {
