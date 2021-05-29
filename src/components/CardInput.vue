@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import CONSTANTS from '../config/constants'
+import { validateCard } from '../utils/cardUtils'
+
 export default {
   name: 'CardInput',
   props: {
@@ -28,22 +29,12 @@ export default {
   data () {
     return {
       newCard: '',
-      validValues: CONSTANTS.VALID_CARD_VALUES,
-      validSuits: CONSTANTS.VALID_CARD_SUITS,
-      suitsMap: CONSTANTS.CARD_SUITS_MAP,
-      valuesMap: CONSTANTS.CARD_VALUES_MAP,
       error: ''
     }
   },
   computed: {
     hasError () {
       return Boolean(this.error) || this.newCard.length !== 2
-    },
-    cardValue () {
-      return (this.newCard.substring(0, 1) || '').toUpperCase()
-    },
-    cardSuit () {
-      return (this.newCard.substring(1, 2) || '').toUpperCase()
     }
   },
   watch: {
@@ -62,21 +53,8 @@ export default {
     onValidateNewCard (val) {
       this.validateCard(val)
     },
-    validateCard (card) {
-      const value = this.cardValue
-      const suit = this.cardSuit
-
-      if (value && !this.validValues.includes(value)) {
-        this.error = 'Valid card values are ' + this.validValues.join(', ')
-        return false
-      }
-
-      if (suit && !this.validSuits.includes(suit)) {
-        this.error = 'Valid card suits are ' + this.validSuits.join(', ')
-        return false
-      }
-      this.error = ''
-      return true
+    validateCard (code) {
+      this.error = validateCard(code)
     },
     onBlur () {
       if (!this.showButton) {
@@ -92,12 +70,6 @@ export default {
       }
 
       this.$emit('input', cardCode)
-
-      this.$emit('add-card', {
-        value: this.valuesMap[this.cardValue],
-        suit: this.suitsMap[this.cardSuit],
-        code: cardCode
-      })
       this.newCard = ''
     }
   }

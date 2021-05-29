@@ -24,6 +24,27 @@ export default {
     Q: 'QUEEN',
     K: 'KING'
   },
+  CARD_VALUE_STRENGTH: {
+    2: 1,
+    A: 2,
+    K: 3,
+    Q: 4,
+    J: 5,
+    0: 6,
+    9: 7,
+    8: 8,
+    7: 9,
+    6: 10,
+    5: 11,
+    4: 12,
+    3: 13
+  },
+  CARD_SUIT_STRENGTH: {
+    H: 1,
+    D: 2,
+    C: 3,
+    S: 4
+  },
   SUITS_ICONS: {
     HEARTS: '♥',
     CLUBS: '♠',

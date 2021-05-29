@@ -1,5 +1,5 @@
-import sort from './helpers/sorter'
+import { sortTable } from '@/utils/tableUtils'
 
 export default {
-  sortedCards: state => sort(state)
+  sortedCards: (state) => sortTable(state)
 }

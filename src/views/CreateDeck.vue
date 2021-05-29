@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <Table v-model="cards">
-      <CardInput label="Add cards to the pile" show-button @add-card="onAddCard"></CardInput>
+      <CardInput label="Add cards to the pile" show-button @input="onAddCard"></CardInput>
     </Table>
-    <CardInput v-model="rotationCardCode" label="Rotation card" @add-card="onSelectRotationCard"></CardInput>
+    <CardInput v-model="rotationCardCode" label="Rotation card" @input="onSelectRotationCard"></CardInput>
     <button @click="onSubmitClick">Submit Deck</button>
   </div>
 </template>
@@ -12,6 +12,7 @@
 import Table from '@/components/Table.vue'
 import CardInput from '@/components/CardInput.vue'
 import { mapActions } from 'vuex'
+import { getCardObject } from '@/utils/cardUtils'
 export default {
   name: 'CreateDeck',
   components: {
@@ -27,10 +28,12 @@ export default {
   },
   methods: {
     ...mapActions(['createDeck']),
-    onAddCard (card) {
+    onAddCard (cardCode) {
+      const card = getCardObject(cardCode)
       this.cards.push(card)
     },
-    onSelectRotationCard (card) {
+    onSelectRotationCard (cardCode) {
+      const card = getCardObject(cardCode)
       this.rotationCard = card
     },
     async onSubmitClick () {
